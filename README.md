@@ -80,7 +80,7 @@ Now we want to move our View code (HTML) into a separate file just like we did w
 1. Install the NPM package EJS (Embedded JavaScript)
     - this is a templating library that allows us to mix data into our html
     - the HTML will change based on the data!
-    - `npm install ejs --save`
+    - `npm i ejs`
 1. Create a views directory inside our app directory
 1. Inside /views, create a file called show.ejs
     - this will be the html for our show route
