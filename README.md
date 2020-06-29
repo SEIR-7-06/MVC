@@ -100,7 +100,7 @@ Now we want to move our View code (HTML) into a separate file just like we did w
     ```
 
 1. Now, instead of `res.send('some text')`, we can call `res.render('show.ejs')`
-    - tell express to use EJS and look inside the /views directory
+    - tell express to use EJS as the view engine and look inside the /views directory
     - it will send the html in the show.ejs file as a response
 
         ```javascript
