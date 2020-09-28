@@ -80,7 +80,7 @@ Now we want to move our View code (HTML) into a separate file just like we did w
 1. Install the NPM package EJS (Embedded JavaScript)
     - this is a templating library that allows us to mix data into our html
     - the HTML will change based on the data!
-    - `npm install ejs --save`
+    - `npm i ejs`
 1. Create a views directory inside our app directory
 1. Inside /views, create a file called show.ejs
     - this will be the html for our show route
@@ -100,9 +100,14 @@ Now we want to move our View code (HTML) into a separate file just like we did w
     ```
 
 1. Now, instead of `res.send('some text')`, we can call `res.render('show.ejs')`
-    - express will know to look inside the /views directory
+    - tell express to use EJS as the view engine and look inside the /views directory
     - it will send the html in the show.ejs file as a response
 
+        ```javascript
+        // set the view engine to ejs
+        app.set('view engine', 'ejs');       
+        ```
+        
         ```javascript
         app.get('/fruits/:index', function(req, res){
             res.render('show.ejs');
