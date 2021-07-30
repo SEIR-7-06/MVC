@@ -210,8 +210,8 @@ Our next goal is to create a page that will show the information for all the fru
 
 3. We can then render out the `index.ejs` template in our show route.
 ```js
-app.get('/fruits', (request, response) => {
-  response.render('index.ejs');
+app.get('/fruits', (req, res) => {
+  res.render('index.ejs');
 });
 ```
 
@@ -220,9 +220,9 @@ At this point we should be able to visit `localhost:4000/fruits` in the browser 
 4. The next step is the pass the fruits data to the `index.ejs` template.
 
 ```js
-app.get('/fruits', (request, response) => {
-  // response.send(fruits);
-  response.render('index.ejs', {
+app.get('/fruits', (req, res) => {
+  // res.send(fruits);
+  res.render('index.ejs', {
     allFruits: fruits
   });
 })
