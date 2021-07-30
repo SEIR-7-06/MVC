@@ -152,26 +152,26 @@ Now let's mix our data into our HTML.
 
 7. Access the data that `res.render()` made available to the view.
 
-    ```html
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    </head>
-    <body>
+</head>
+<body>
     <h1>Fruits show page</h1>
-    The <%= oneFruit.name %> is <%= oneFruit.color %>.
+    <p>The <%= oneFruit.name %> is <%= oneFruit.color %>.</p>
     <% if(oneFruit.readyToEat === true){ %>
         <p>It is ready to eat</p>
     <% } else { %>
         <p>It is not ready to eat</p>
     <% } %>
-    </body>
-    </html>
-    ```
+</body>
+</html>
+```
 
 Up until now, if we wanted to create JavaScript in an HTML file, we'd have to do so between `<script>` tags. Now, we're just writing JavaScript in the middle of the HTML, and this is thanks to EJS and its templating tags.
 
