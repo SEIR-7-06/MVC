@@ -48,7 +48,7 @@ Think of MVC as a restaurant.
 
 1. `cd ~/sei/express-fruits`
 2. Open `express-fruits` in your editor.
-3. `nodemon`
+3. `nodemon server.js`
 
 ## Move our data into a separate file
 
@@ -86,7 +86,7 @@ const fruits = require('./models/fruit_model.js');
 
 5. We still haven't imported anything yet because we haven't told the `models/fruit_model.js` what to export. Like any JS file, we can have multiple variables/functions that can be exported.
 
-So, how does JavaScript know which variable(s) in `models/fruit_model.js` to assign to the fruits `const` in `server.js` (i.e., what exactly is the `require()` statment importing)?
+So, how does JavaScript know which variable(s) in `models/fruit_model.js` to assign to the fruits `const` in `server.js` (i.e., what exactly is the `require()` statement importing)?
 
 We must tell JavaScript which variable(s) we want to export so that other files, such as `server.js`, can import them.
 
@@ -99,7 +99,7 @@ In `models/fruit_model.js`:
 module.exports = fruits;
 ```
 
-## Move our presentation code into an EJS file
+## Create the Show Fruit Page
 
 Now we want to create our View code (HTML) in a separate file just like we did with the data.
 
@@ -112,15 +112,17 @@ Now we want to create our View code (HTML) in a separate file just like we did w
 
 ```html
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-    </head>
-    <body>
-        <h1>Fruits show page</h1>
-    </body>
-</html>    
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Fruits show page</h1>
+</body>
+</html>
 ```
 
 5. Now, instead of `res.send('some text')`, we can call `res.render('show.ejs')`.
@@ -152,20 +154,22 @@ Now let's mix our data into our HTML.
 
     ```html
     <!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8">
-            <title></title>
-        </head>
-        <body>
-            <h1>Fruits show page</h1>
-            The <%= oneFruit.name %> is <%= oneFruit.color %>.
-            <% if(oneFruit.readyToEat === true){ %>
-                It is ready to eat
-            <% } else { %>
-                It is not ready to eat
-            <% } %>
-        </body>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    </head>
+    <body>
+    <h1>Fruits show page</h1>
+    The <%= oneFruit.name %> is <%= oneFruit.color %>.
+    <% if(oneFruit.readyToEat === true){ %>
+        <p>It is ready to eat</p>
+    <% } else { %>
+        <p>It is not ready to eat</p>
+    <% } %>
+    </body>
     </html>
     ```
 
@@ -179,5 +183,76 @@ Note that there are two types of new tags:
 - `<% %>`: run some JavaScript
 - `<%= %>`: run some JavaScript and insert the result of the JavaScript into the HTML
 
+## Create the Index Fruit Page
 
-Reminder: Let's stop our server (`ctrl + c`).
+So far, we were able to create a "Fruit Show Page", a page that will show the information about a single fruit. We created a `show.ejs` template, rendered that template in the fruit show route, and passed it the data for a single fruit.
+
+Our next goal is to create a page that will show the information for all the fruits in our database. This will be our "Fruit Index Page".
+
+1. Start by creating a file called `index.ejs` in the `views` directory.
+
+2. We'll start off with some boilerplate HTML in the `index.ejs` file with an h1 tag.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Fruit Index Page</h1>
+</body>
+</html>
+```
+
+3. We can then render out the `index.ejs` template in our show route.
+```js
+app.get('/fruits', (request, response) => {
+  response.render('index.ejs');
+});
+```
+
+At this point we should be able to visit `localhost:4000/fruits` in the browser and visit our "Fruits Index Page". Try it out!
+
+4. The next step is the pass the fruits data to the `index.ejs` template.
+
+```js
+app.get('/fruits', (request, response) => {
+  // response.send(fruits);
+  response.render('index.ejs', {
+    allFruits: fruits
+  });
+})
+```
+
+5. At this point we are able to render our `index.ejs` template and we are passing it the fruits data. That fruit data is accessible in the `index.ejs` template under the variable `allFruits`. `allFruits` is the key in the key/value pair being passed when we are rendering the `index.ejs` template.
+
+We are now ready to display that data on the page. For each fruit, let's display the fruit name and the fruit color.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Fruit Index Page</h1>
+
+  <ul>
+    <% for (let i = 0; i < allFruits.length; i++) { %>
+      <li>
+        <p>The <%= allFruits[i].name %> is <%= allFruits[i].color %></p>
+      </li>
+    <% } %>
+  </ul>
+</body>
+</html>
+```
+
+We are simply inserting a JavaScript for loop into our EJS template. For each fruit in the `allFruits` array, we printing out the fruit name and the fruit color.
